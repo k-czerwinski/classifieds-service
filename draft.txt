@@ -1,0 +1,11 @@
+Onlline Shop System draft
+1. Users can add accounts and remove their user accounts
+2. Each product has main category(and subcategory)
+Options:
+-add, remove user accounts
+-add and remove product
+-sort product by price(from highest/lowest)
+-filtr product by category and subcategory
+
+main category -> (subcategory) -> product
+
