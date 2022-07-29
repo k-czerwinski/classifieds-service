@@ -20,15 +20,6 @@ namespace ClassifiedsService
       Category = Categories.Bike;
       AddedMessage();
     }
-    /*
-    public Bike(User addedBy) : base(addedBy)
-    {
-      _wheelSize = Service.GetInt(12, 36, "Enter wheel size: ", "Wheel size must be higher or eqal 12 and lower or equal 36. Try again", "Wheel size must be higher or eqal 12 and lower or equal 36. Try again");
-      _frameSize = Service.GetInt(13, 25, "Enter frame size: ", "Frame size must be higher or eqal 13 and lower or equal 24. Try again", "Frame size must be higher or eqal 13 and lower or equal 24. Try again");
-      Category = Categories.Bike;
-      AddedMessage();
-    }
-    */
 
 
     public override void DisplayProduct()

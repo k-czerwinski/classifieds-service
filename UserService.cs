@@ -113,8 +113,6 @@ namespace ClassifiedsService
         Console.WriteLine("Avalibe categories: ");
         DisplayCategories();
         Console.Write("Your choice: ");
-        /////
-        /*
         try
         {
           int choice = Console.ReadKey().KeyChar - '0';
@@ -123,46 +121,23 @@ namespace ClassifiedsService
             throw new KeyNotFoundException();
           }
           Console.Clear();
-          Categories category = (Categories)choice;
-          Console.WriteLine("CATEGORY: " + category.ToString());
-          dynamic d = Activator.CreateInstance(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name
-  , category.ToString());
-          d.AddedMessage();
 
+          Categories category = (Categories)choice;
+          string namespaceName = typeof(Program).Namespace;
+          string className = category.ToString();
+          Type type = Type.GetType($"{namespaceName}.{className}");
+          Product newProduct = (Product)Activator.CreateInstance(type, user);
+          _products.Add(newProduct);
+          user.AssignToUser(newProduct);
+        }
+        catch (KeyNotFoundException)
+        {
+          Console.WriteLine("\nYou have to choose option from list above. Try again");
         }
         catch (Exception)
         {
-          Console.WriteLine("You have to choose option from list above. Try again");
+          Console.WriteLine("Error while adding new product.");
         }
-        */
-        //////
-
-        char choice = Console.ReadKey().KeyChar;
-        Console.Clear();
-        switch (choice)
-        {
-          case '1':
-            Bike bike = new Bike(user);
-            _products.Add(bike);
-            user.AssignToUser(bike);
-            break;
-          case '2':
-            Car car = new Car(user);
-            _products.Add(car);
-            user.AssignToUser(car);
-            break;
-          case '3':
-            Book book = new Book(user);
-            _products.Add(book);
-            user.AssignToUser(book);
-            break;
-          default:
-            Console.WriteLine("Incorrect option. Try again");
-            break;
-
-
-        }
-
       }
 
       catch (MissingMemberException)

@@ -1,4 +1,5 @@
 using System;
+using ClassifiedsService;
 using System.Collections.Generic;
 
 namespace ClassifiedsService
