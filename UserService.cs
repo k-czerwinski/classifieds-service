@@ -1,6 +1,6 @@
-using System;
+using ClassifiedsService;
 
-namespace OnlineShop
+namespace ClassifiedsService
 {
   class Service
   {
@@ -113,29 +113,48 @@ namespace OnlineShop
         Console.WriteLine("Avalibe categories: ");
         DisplayCategories();
         Console.Write("Your choice: ");
+        /////
+        /*
+        try
+        {
+          int choice = Console.ReadKey().KeyChar - '0';
+          if (choice < 1 || choice > NumberOfCategories())
+          {
+            throw new KeyNotFoundException();
+          }
+          Console.Clear();
+          Categories category = (Categories)choice;
+          Console.WriteLine("CATEGORY: " + category.ToString());
+          dynamic d = Activator.CreateInstance(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name
+  , category.ToString());
+          d.AddedMessage();
+
+        }
+        catch (Exception)
+        {
+          Console.WriteLine("You have to choose option from list above. Try again");
+        }
+        */
+        //////
+
         char choice = Console.ReadKey().KeyChar;
         Console.Clear();
-        Console.WriteLine("Please fill out the form");
-
-        Console.Write("Enter title: ");
-        string title = Console.ReadLine();
-        int price = GetInt(0, "Enter price: ", "Price must be positive number. Try again", "Price must be positive integer. Try again");
         switch (choice)
         {
           case '1':
-            int wheelSize = GetInt(0, "Enter wheel size: ", "Wheel size must be positive integer. Try again", "Wheel size must be positive integer. Try again");
-            int frameSize = GetInt(0, "Enter frame size: ", "Frame size must be positive integer. Try again", "Frame size must be positive integer. Try again");
-            Bike bike = new Bike(price, title, user, frameSize, wheelSize);
+            Bike bike = new Bike(user);
             _products.Add(bike);
-            user.AddProduct(bike);
+            user.AssignToUser(bike);
             break;
           case '2':
-            int productionYear = GetInt(1950, "Enter production year: ", "Production year must be 1950 or higher. Try again", "Production year be positive integer. Try again");
-            Console.Write("Enter color: ");
-            string color = Console.ReadLine();
-            Car car = new Car(price, title, user, productionYear, color);
+            Car car = new Car(user);
             _products.Add(car);
-            user.AddProduct(car);
+            user.AssignToUser(car);
+            break;
+          case '3':
+            Book book = new Book(user);
+            _products.Add(book);
+            user.AssignToUser(book);
             break;
           default:
             Console.WriteLine("Incorrect option. Try again");
@@ -143,7 +162,9 @@ namespace OnlineShop
 
 
         }
+
       }
+
       catch (MissingMemberException)
       {
         Console.WriteLine("We couldn't find your account");
@@ -155,7 +176,7 @@ namespace OnlineShop
 
 
     }
-    private int GetInt(int minValue, string enterIntMessage, string minValueError, string convertionToIntError)
+    public static int GetInt(int minValue, int maxValue, string enterIntMessage, string minValueError, string convertionToIntError)
     {
       int num = -1;
       while (num == -1)
@@ -164,7 +185,7 @@ namespace OnlineShop
         try
         {
           num = Convert.ToInt32(Console.ReadLine());
-          if (num < minValue)
+          if (num < minValue || num > maxValue)
           {
             Console.WriteLine(minValueError);
             num = -1;
@@ -181,26 +202,17 @@ namespace OnlineShop
     {
       Console.WriteLine("Avalibe categories:");
       DisplayCategories();
-      Categories category;
       Console.Write("Your choice: ");
-      char choice = Console.ReadKey().KeyChar;
-      Console.Clear();
       try
       {
-        switch (choice)
+        int choice = Console.ReadKey().KeyChar - '0';
+        if (choice < 1 || choice > NumberOfCategories())
         {
-          case '1':
-            category = Categories.Bike;
-            Console.WriteLine("BIKES:");
-            break;
-          case '2':
-            category = Categories.Car;
-            Console.WriteLine("CARS:");
-            break;
-          default:
-            throw new KeyNotFoundException();
-
+          throw new KeyNotFoundException();
         }
+        Console.Clear();
+        Categories category = (Categories)choice;
+        Console.WriteLine("CATEGORY: " + category.ToString());
         var filtredByCategory = from x in _products
                                 where x.Category == category
                                 select x;
@@ -208,21 +220,20 @@ namespace OnlineShop
         {
           x.DisplayProduct();
         }
+
       }
-      catch (KeyNotFoundException)
+      catch (Exception)
       {
-        Console.WriteLine("You have to choose correct option. Try again");
+        Console.WriteLine("You have to choose option from list above. Try again");
       }
 
     }
     private void DisplayCategories()
     {
       var categories = Enum.GetValues(typeof(Categories));
-      int i = 1;
       foreach (var x in categories)
       {
-        Console.WriteLine("[" + i + "] " + x);
-        i++;
+        Console.WriteLine("[" + (int)x + "] " + x);
       }
     }
     private void DispalyProductsAddedByUser()
@@ -242,6 +253,11 @@ namespace OnlineShop
         Console.WriteLine("We couldn't find: \"{0}\".", userName);
       }
     }
+    public int NumberOfCategories()
+    {
+      return Enum.GetNames(typeof(Categories)).Length;
+    }
 
   }
+
 }

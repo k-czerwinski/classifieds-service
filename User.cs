@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OnlineShop
+namespace ClassifiedsService
 {
   class User
   {
@@ -39,7 +39,7 @@ namespace OnlineShop
     {
       Console.WriteLine(_name + " " + _surname);
     }
-    public void AddProduct(Product product)
+    public void AssignToUser(Product product)
     {
       _addedByUser.Add(product);
     }

@@ -1,8 +1,8 @@
-﻿using OnlineShop;
+﻿using ClassifiedsService;
 
 using System;
 
-namespace OnlineShop
+namespace ClassifiedsService
 {
   class Program
   {
